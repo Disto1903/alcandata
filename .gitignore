@@ -1,0 +1,7 @@
+exceldxb.xlsx
+.streamlit/
+__pycache__/
+*.py[cod]
+venv/
+.env
+*.log
