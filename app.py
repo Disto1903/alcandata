@@ -59,7 +59,7 @@ if st.session_state.logged_in:
 
     # Mapping des champs personnalisés Pipedrive
     CUSTOM_FIELD_MAP = {
-        "56410da7410b4a607ec34d0891c43678294f74dc": "Products",
+        "bcfbb135389a27dc095372af1e81f19855a36eed": "Products",
         "0144bcc78cc774d8675c881b6f97499753c60a06": "Sectors",
         "ac6b557eb070b9f9fca5e6527cda1980b10e6694": "Countries"
     }
