@@ -25,16 +25,17 @@ if not st.session_state.logged_in:
 
 # Si connecté, on affiche le reste de l'application
 if st.session_state.logged_in:
-    # Chargement du fichier Excel
-    excel_file = "exceldxb.xlsx"
-    try:
+
+    # Fonction pour charger les données Excel
+    def charger_feuilles_excel():
+        excel_file = "exceldxb.xlsx"
         xls = pd.ExcelFile(excel_file)
         feuille_products = xls.parse("Products")
         feuille_sectors = xls.parse("Sectors")
         feuille_countries = xls.parse("Countries")
-    except Exception as e:
-        st.error(f"Erreur lors du chargement du fichier Excel : {e}")
-        st.stop()
+        return feuille_products, feuille_sectors, feuille_countries
+
+    feuille_products, feuille_sectors, feuille_countries = charger_feuilles_excel()
 
     # Fonction pour créer un mapping inversé (entreprise -> attributs)
     def construire_mapping(feuille):
@@ -59,9 +60,9 @@ if st.session_state.logged_in:
 
     # Mapping des champs personnalisés Pipedrive
     CUSTOM_FIELD_MAP = {
-        "bcfbb135389a27dc095372af1e81f19855a36eed": "Products",
+        "bcfbb135389a27dc095372af1e81f19855a36eed": "Products",      
         "0144bcc78cc774d8675c881b6f97499753c60a06": "Sectors",
-        "ac6b557eb070b9f9fca5e6527cda1980b10e6694": "Countries"
+        "ac6b557eb070b9f9fca5e6527cda1980b10e6694": "Countries"     
     }
 
     # Onglets
@@ -69,10 +70,17 @@ if st.session_state.logged_in:
 
     with onglets[0]:
         st.title("🗂️ Données Excel")
+
+        if st.button("🔄 Recharger les données Excel"):
+            feuille_products, feuille_sectors, feuille_countries = charger_feuilles_excel()
+            st.success("✅ Données rechargées !")
+
         st.subheader("📄 Feuille Products")
         st.dataframe(feuille_products)
+
         st.subheader("📄 Feuille Sectors")
         st.dataframe(feuille_sectors)
+
         st.subheader("📄 Feuille Countries")
         st.dataframe(feuille_countries)
 
